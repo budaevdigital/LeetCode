@@ -34,38 +34,24 @@ Output: 1994
 Explanation: M = 1000, CM = 900, XC = 90 and IV = 4.
 """
 
-SYNBOLS = {"I": 1, "V": 5, "X": 10, "L": 50, "C": 100, "D": 500, "M": 1000}
+SYMBOLS = {"I": 1, "V": 5, "X": 10, "L": 50, "C": 100, "D": 500, "M": 1000}
 
 
 class Solution:
     def romanToInt(self, s: str) -> int:
-        def is_minus_numb(current_numb: int, next_numb: int) -> int:
-            print(current_numb, next_numb)
-            if (next_numb / current_numb) == 5 or (
-                next_numb / current_numb
-            ) == 10:
-                sums = next_numb - current_numb
-                print("!!!", sums)
-                return sums
-            return next_numb + current_numb
-
-        all_sum = 0
-        index = 0
-        while index < (len(s) - 1):
-            print(s[index])
-            if (
-                int(SYNBOLS[s[index + 1]] / SYNBOLS[s[index]]) == 5
-                or int(SYNBOLS[s[index + 1]] / SYNBOLS[s[index]]) == 10
-            ):
-                all_sum += SYNBOLS[s[index + 1]] - SYNBOLS[s[index]]
-                print("!", all_sum)
+        result = 0
+        for index, value in enumerate(s):
+            if (index + 1) == len(s) or SYMBOLS[value] >= SYMBOLS[
+                s[index + 1]
+            ]:
+                result += SYMBOLS[value]
             else:
-                all_sum += SYNBOLS[s[index + 1]] + SYNBOLS[s[index]]
-                print("+++", all_sum)
-            index += 2
-        return all_sum
+                result -= SYMBOLS[value]
+        return result
 
 
 test = Solution()
 
 print(test.romanToInt("MCMXCIV"))
+print(test.romanToInt("LVIII"))
+print(test.romanToInt("III"))
